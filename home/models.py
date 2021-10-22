@@ -47,29 +47,29 @@ class CommentPublication(models.Model):
     text = models.TextField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
 
-#
-# # дополнительные таблицы, реализующие связь многие ко многим для пользователя и лайков
-# class LikesNews(models.Model):
-#     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
-#     id_new = models.ForeignKey(News, on_delete=models.PROTECT)
-#     like = models.BooleanField(null=True)
-#
-#
-# class LikesPublications(models.Model):
-#     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
-#     id_pub = models.ForeignKey(Publications, on_delete=models.PROTECT)
-#     like = models.BooleanField(null=True)
-#
-#
-# class LikesCommentNews(models.Model):
-#     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
-#     id_com_new = models.ForeignKey(CommentNews, on_delete=models.PROTECT)
-#     like = models.BooleanField(null=True)
-#
-#
-# class LikesCommentPublication(models.Model):
-#     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
-#     id_com_pub = models.ForeignKey(CommentPublication, on_delete=models.PROTECT)
-#     like = models.BooleanField(null=True)
+
+# дополнительные таблицы, реализующие связь многие ко многим для пользователя и лайков
+class LikesNews(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.PROTECT)
+    id_new = models.ForeignKey(News, on_delete=models.PROTECT)
+    like = models.BooleanField(null=True)
+
+
+class LikesPublications(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.PROTECT)
+    id_pub = models.ForeignKey(Publications, on_delete=models.PROTECT)
+    like = models.BooleanField(null=True)
+
+
+class LikesCommentNews(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.PROTECT)
+    id_com_new = models.ForeignKey(CommentNews, on_delete=models.PROTECT)
+    like = models.BooleanField(null=True)
+
+
+class LikesCommentPublication(models.Model):
+    id_user = models.ForeignKey(User, on_delete=models.PROTECT)
+    id_com_pub = models.ForeignKey(CommentPublication, on_delete=models.PROTECT)
+    like = models.BooleanField(null=True)
 
 
