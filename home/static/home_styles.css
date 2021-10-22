@@ -1,0 +1,17 @@
+.news_col {
+    background-color: #e0e4f1;
+    padding-top: 20px;
+}
+
+.card_likes {
+    text-align: right;
+}
+
+.publication-footer .detail_header {
+    display: inline-block;
+}
+
+.like, .dislike {
+    float: right;
+    margin-left: 15px;
+}
