@@ -40,14 +40,14 @@
             <form method="post">
                 {% csrf_token %}
                 <input type="hidden" value="dislike" name="like_type">
-                <input type="submit" value="👎" class="btn btn-primary">
+                <input type="submit" value="👎" class="btn btn-primary" {% if not button_visible %}disabled{% endif %}>
             </form>
         </div>
         <div class="like detail_header detail_block">
             <form method="post">
                 {% csrf_token %}
                 <input type="hidden" value="like" name="like_type">
-                <input type="submit" value="👍" class="btn btn-primary">
+                <input type="submit" value="👍" class="btn btn-primary" {% if not button_visible %}disabled{% endif %}>
             </form>
         </div>
     </div>

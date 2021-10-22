@@ -24,8 +24,17 @@ class DetailNew(DetailView, UpdateView):
     model = News
     fields = ['likes_num', 'dislikes_num']
 
+    def get_context_data(self, **kwargs):
+        context = super(DetailNew, self).get_context_data(**kwargs)
+
+        res = LikesNews.objects.filter(id_user=self.request.user.id, id_posts=self.kwargs['pk'])
+        context['button_visible'] = False if len(res) else True
+
+        return context
+
     def post(self, request, *args, **kwargs):
         try:
+            kwargs['addit_table'] = LikesNews
             pk = edit(self, request, *args, **kwargs)
             return redirect('new', pk=pk)
         except:
@@ -37,9 +46,17 @@ class DetailPublication(DetailView, UpdateView):
     model = Publications
     fields = ['likes_num', 'dislikes_num']
 
+    def get_context_data(self, **kwargs):
+        context = super(DetailPublication, self).get_context_data(**kwargs)
+
+        res = LikesPublications.objects.filter(id_user=self.request.user.id, id_posts=self.kwargs['pk'])
+        context['button_visible'] = False if len(res) else True
+
+        return context
+
     def post(self, request, *args, **kwargs):
         try:
-            kwargs['addit_table'] = P
+            kwargs['addit_table'] = LikesPublications
             pk = edit(self, request, *args, **kwargs)
             return redirect('publication', pk=pk)
         except:
@@ -47,14 +64,21 @@ class DetailPublication(DetailView, UpdateView):
 
 
 def edit(cls, request, *args, **kwargs):
-    obj = cls.model.objects.get(pk=kwargs['pk'])
-    addit_table = kwargs['addit_table']
-    usr_pk = request.user.id
-    user_likes
+    obj = cls.model.objects.get(pk=kwargs['pk'])  # объект поста(новости/публикации/комментария)
+    addit_table = kwargs['addit_table']  # соответствующая доп таблица для связи с пользователем
+    usr_pk = request.user.id  # ид юзера
 
-    if request.POST['like_type'] == 'like':
-        obj.likes_num += 1
-    elif request.POST['like_type'] == 'dislike':
-        obj.dislikes_num += 1
-    obj.save()
+    # проверка, оценивал ли уже юзер этот пост
+    user_likes = addit_table.objects.filter(id_user=usr_pk, id_posts=kwargs['pk'])
+    if len(user_likes) == 0:
+        like_type = request.POST['like_type']  # тип оценки(лайк/дизлайк)
+        if like_type == 'like':
+            obj.likes_num += 1
+        elif like_type == 'dislike':
+            obj.dislikes_num += 1
+        obj.save()
+
+        addit_table.objects.create(id_user=User.objects.get(pk=usr_pk),
+                                   id_posts=obj,
+                                   like=(True if like_type == 'like' else False))
     return kwargs['pk']
