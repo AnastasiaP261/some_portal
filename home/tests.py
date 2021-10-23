@@ -60,23 +60,11 @@ class DetailNewTest(TestCase):
         self.c = Client()
 
     def test_detail_page_status(self):
-        response = self.c.get('/home/new/1/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.new1.get_absolute_url(), '/home/new/1/')
 
         response = self.c.get('/home/new/10/')
         self.assertEqual(response.status_code, 404)
 
-    def test_num_of_comments(self):
-        response1 = self.c.get('/home/new/1/')
-        self.assertEqual(len(response1.context['comments']), 3)
-
-        response2 = self.c.get('/home/new/3/')
-        self.assertEqual(len(response2.context['comments']), 0)
-
-        # кол-во комментариев на 3 новость увеличилось, а на остальные не изменилось
-        response2 = self.c.post('/home/new/3/', {'new_comm': 'text'})
-        self.assertEqual(len(response2.context['comments']), 1)
-        self.assertEqual(len(response1.context['comments']), 3)
 
 
 
