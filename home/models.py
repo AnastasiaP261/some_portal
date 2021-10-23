@@ -30,6 +30,7 @@ class Publications(models.Model):
         return reverse('publication', kwargs={'pk': self.pk})
 
 
+# комментарии для новостей
 class CommentNews(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT, null=False, blank=False)
     id_post = models.ForeignKey(News, on_delete=models.PROTECT)
@@ -39,6 +40,7 @@ class CommentNews(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
 
+# комментарии для публикаций
 class CommentPublication(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
     id_post = models.ForeignKey(Publications, on_delete=models.PROTECT)
@@ -49,24 +51,28 @@ class CommentPublication(models.Model):
 
 
 # дополнительные таблицы, реализующие связь многие ко многим для пользователя и лайков
+# лайк для новости
 class LikesNews(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
     id_posts = models.ForeignKey(News, on_delete=models.PROTECT)
     like = models.BooleanField(null=True)
 
 
+# лайк для публикации
 class LikesPublications(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
     id_posts = models.ForeignKey(Publications, on_delete=models.PROTECT)
     like = models.BooleanField(null=True)
 
 
+# лайк для комментария под новостью
 class LikesCommentNews(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
     id_posts = models.ForeignKey(CommentNews, on_delete=models.PROTECT)
     like = models.BooleanField(null=True)
 
 
+# лайк для комментария под публикацией
 class LikesCommentPublication(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
     id_posts = models.ForeignKey(CommentPublication, on_delete=models.PROTECT)
