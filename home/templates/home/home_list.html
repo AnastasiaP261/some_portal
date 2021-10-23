@@ -21,6 +21,9 @@
                             <a href="{{ pub.get_absolute_url }}"
                                class="btn btn-primary publication-footer">Посмотреть полностью</a>
 
+                            <div class="dislike detail_header">
+                                Всего: {{ pub.dislikes_num|add:pub.likes_num }}
+                            </div>
                             <div class="dislike publication-footer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                      class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">
@@ -68,6 +71,9 @@
                             <p class="card-text">{{ new.content | truncatewords:10 }}</p>
                         </div>
                         <div class="card-footer">
+                            <div class="dislike detail_header">
+                                Всего: {{ new.dislikes_num|add:new.likes_num }}
+                            </div>
                             <div class="dislike publication-footer">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                      class="bi bi-hand-thumbs-down-fill" viewBox="0 0 16 16">

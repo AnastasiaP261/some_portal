@@ -36,7 +36,6 @@ class DetailPost(DetailView, UpdateView):
         res = self.linked_likes_table.objects.filter(id_user=self.request.user.id, id_posts=self.kwargs['pk'])
         context['button_visible'] = False if len(res) else True
 
-        # context['comments'] = CommentNews.objects.filter(id_post=self.kwargs['pk'])
         context['comments'] = self.linked_comm_table.objects.raw(self.get_likescomment_request(
             commentpost_table=self.linked_comm_table._meta.db_table,
             likescommentpost_table=self.linked_likescomm_table._meta.db_table,
