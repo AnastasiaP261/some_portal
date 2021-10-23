@@ -30,12 +30,21 @@ class DetailNew(DetailView, UpdateView):
         res = LikesNews.objects.filter(id_user=self.request.user.id, id_posts=self.kwargs['pk'])
         context['button_visible'] = False if len(res) else True
 
+        context['comments'] = CommentNews.objects.filter(id_post=self.kwargs['pk'])
+        if not context['comments']:
+            context['comments'] = 'no_comm'
+
         return context
 
     def post(self, request, *args, **kwargs):
         try:
-            kwargs['addit_table'] = LikesNews
-            pk = edit(self, request, *args, **kwargs)
+            pk = None
+            if 'like_type' in request.POST:
+                kwargs['addit_table'] = LikesNews
+                pk = edit_likes(self, request, *args, **kwargs)
+            elif 'new_comm' in request.POST:
+                kwargs['comm_table'] = CommentNews
+                pk = new_comment(self, request, *args, **kwargs)
             return redirect('new', pk=pk)
         except:
             return redirect('home')
@@ -52,18 +61,40 @@ class DetailPublication(DetailView, UpdateView):
         res = LikesPublications.objects.filter(id_user=self.request.user.id, id_posts=self.kwargs['pk'])
         context['button_visible'] = False if len(res) else True
 
+        context['comments'] = CommentPublication.objects.filter(id_post=self.kwargs['pk'])
+        if not context['comments']:
+            context['comments'] = 'no_comm'
+
         return context
 
     def post(self, request, *args, **kwargs):
         try:
-            kwargs['addit_table'] = LikesPublications
-            pk = edit(self, request, *args, **kwargs)
+            pk = None
+            if 'like_type' in request.POST:
+                kwargs['addit_table'] = LikesPublications
+                pk = edit_likes(self, request, *args, **kwargs)
+            elif 'new_comm' in request.POST:
+                kwargs['comm_table'] = CommentPublication
+                pk = new_comment(self, request, *args, **kwargs)
             return redirect('publication', pk=pk)
         except:
             return redirect('home')
 
 
-def edit(cls, request, *args, **kwargs):
+def new_comment(cls, request, *args, **kwargs):
+    comm_table = kwargs['comm_table']
+    usr_pk = request.user.id  # ид юзера
+    comm_text = request.POST['new_comm']
+
+    obj = comm_table.objects.create(id_user=User.objects.get(pk=usr_pk),
+                                    id_post=cls.model.objects.get(pk=kwargs['pk']),
+                                    text=comm_text)
+    obj.save()
+
+    return kwargs['pk']
+
+
+def edit_likes(cls, request, *args, **kwargs):
     obj = cls.model.objects.get(pk=kwargs['pk'])  # объект поста(новости/публикации/комментария)
     addit_table = kwargs['addit_table']  # соответствующая доп таблица для связи с пользователем
     usr_pk = request.user.id  # ид юзера

@@ -32,7 +32,7 @@ class Publications(models.Model):
 
 class CommentNews(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT, null=False, blank=False)
-    id_new = models.ForeignKey(News, on_delete=models.PROTECT)
+    id_post = models.ForeignKey(News, on_delete=models.PROTECT)
     likes_num = models.IntegerField(default=0)
     dislikes_num = models.IntegerField(default=0)
     text = models.TextField(blank=True, max_length=200)
@@ -41,7 +41,7 @@ class CommentNews(models.Model):
 
 class CommentPublication(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
-    id_pub = models.ForeignKey(Publications, on_delete=models.PROTECT)
+    id_post = models.ForeignKey(Publications, on_delete=models.PROTECT)
     likes_num = models.IntegerField(default=0)
     dislikes_num = models.IntegerField(default=0)
     text = models.TextField(max_length=200)
