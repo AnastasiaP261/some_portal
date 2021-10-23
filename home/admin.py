@@ -1,6 +1,6 @@
 from django.contrib import admin
-from .models import *
 
+from .models import *
 
 post_list_display = ['pk', 'title', 'content', 'created_at', 'updated_at', 'author', 'likes_num', 'dislikes_num']
 comment_list_display = ['pk', 'id_user', 'id_post', 'likes_num', 'dislikes_num', 'text', 'created_at']
@@ -51,5 +51,3 @@ admin.site.register(LikesNews, LikesNewsAdmin)
 admin.site.register(LikesPublications, LikesPublicationsAdmin)
 admin.site.register(LikesCommentNews, LikesCommentNewsAdmin)
 admin.site.register(LikesCommentPublication, LikesCommentPublicationAdmin)
-
-

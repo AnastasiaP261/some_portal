@@ -98,7 +98,7 @@
                                 <input type="hidden" value="{{ comm.pk }}" name="comm_id">
                                 <input type="hidden" value="dislike" name="like_type">
                                 <input type="submit" value="👎" class="btn btn-outline-primary"
-                                {% if comm.like != None %}disabled{% endif %}>
+                                       {% if comm.like != None %}disabled{% endif %}>
                             </form>
                         </div>
                         <div class="like detail_header detail_block">
@@ -107,7 +107,7 @@
                                 <input type="hidden" value="{{ comm.pk }}" name="comm_id">
                                 <input type="hidden" value="like" name="like_type">
                                 <input type="submit" value="👍" class="btn btn-outline-primary"
-                                {% if comm.like != None %}disabled{% endif %}>
+                                       {% if comm.like != None %}disabled{% endif %}>
                             </form>
                         </div>
                     </div>

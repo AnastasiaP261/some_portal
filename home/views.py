@@ -1,10 +1,10 @@
-from django.http import HttpResponseRedirect
-from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, UpdateView
+
 from .models import *
 
 
+# класс отвечает за отображение главной страницы
 class Home(ListView):
     template_name = 'home/home_list.html'
     paginate_by = 5
@@ -19,14 +19,16 @@ class Home(ListView):
         return Publications.objects.order_by('created_at').reverse()
 
 
+# класс-родитель для классов, отвечающих за отображение экземпляров каждого материала(новость/публикация)
 class DetailPost(DetailView, UpdateView):
     template_name = 'home/detail.html'
     model = News
     fields = ['likes_num', 'dislikes_num']
-    linked_likes_table = None  # обязательно переопределить!
-    linked_likescomm_table = None  # обязательно переопределить!
-    linked_comm_table = None  # обязательно переопределить!
-    linked_url_name = None  # обязательно переопределить!
+    # все нижнеперечисленные переменные обязательно переопределить!
+    linked_likes_table = None  # связанная таблица лайков к материалу
+    linked_likescomm_table = None  # связанная таблица лайков к комментариям
+    linked_comm_table = None  # связанная таблица комметариев
+    linked_url_name = None  # связанное имя url
 
     def get_context_data(self, **kwargs):
         context = super(DetailPost, self).get_context_data(**kwargs)
@@ -125,6 +127,7 @@ class DetailPost(DetailView, UpdateView):
         return kwargs['pk']
 
 
+# класс отвечает за отображение конкретной новости
 class DetailNew(DetailPost):
     model = News
     linked_likes_table = LikesNews
@@ -133,11 +136,10 @@ class DetailNew(DetailPost):
     linked_url_name = 'new'
 
 
+# класс отвечает за отображение конкретной публикации
 class DetailPublication(DetailPost):
     model = Publications
     linked_likes_table = LikesPublications
     linked_likescomm_table = LikesCommentPublication
     linked_comm_table = CommentPublication
     linked_url_name = 'publication'
-
-

@@ -1,7 +1,6 @@
-from django.db import models
-from django.shortcuts import render
-from django.urls import reverse
 from django.contrib.auth.models import User
+from django.db import models
+from django.urls import reverse
 
 
 class News(models.Model):
@@ -77,5 +76,3 @@ class LikesCommentPublication(models.Model):
     id_user = models.ForeignKey(User, on_delete=models.PROTECT)
     id_posts = models.ForeignKey(CommentPublication, on_delete=models.PROTECT)
     like = models.BooleanField(null=True)
-
-
