@@ -12,7 +12,7 @@
 Открыть bash-терминал в корневой папке проекта.
 Ввести
 
-`$ pip3 install -r requirements.txt`
+`$ pip3 install -r requirements.txt`  
 `$ python3 manage.py runserver`
 
 Для просмотра работы веб-приложения открыть в браузере страницу http://0.0.0.0:8000/home/
